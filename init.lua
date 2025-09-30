@@ -4,7 +4,7 @@
 local user = "PhlompfDev"
 local repo = "PhobisHub"
 local cacheDir = "phobishub_cache"
-local branch = "main"
+local branch = "dev"
 
 local HttpService = game:GetService("HttpService")
 
