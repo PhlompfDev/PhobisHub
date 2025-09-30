@@ -13,7 +13,8 @@ local gitRoot = ''
 local cacheDir = 'phobishub_cache'
 
 local importerPath = cacheDir .. '/importer.lua'
-local importerURL = 'https://raw.githubusercontent.com/PhlompfDev/PhobisHub/main/utils/importer.lua'
+local importerURL =
+	'https://raw.githubusercontent.com/PhlompfDev/PhobisHub/main/utils/importer.lua'
 
 if makefolder and not isfolder(cacheDir) then
 	makefolder(cacheDir)
@@ -23,20 +24,20 @@ local src
 if isfile and isfile(importerPath) then
 	local ok, content = pcall(readfile, importerPath)
 	if ok and content and #content > 0 then
-		print('[Bootstrap] ⚡ Using cached importer')
+		print('[Bootstrapper] ⚡ Using cached importer')
 		src = content
 	end
 end
 
 if not src then
-	print('[Bootstrap] 🌐 Downloading importer')
+	print('[Bootstrapper] 🌐 Downloading importer')
 	src = game:HttpGetAsync(importerURL .. '?t=' .. os.time())
 	if writefile then
 		pcall(writefile, importerPath, src)
 	end
 end
 
-local Importer = loadstring(src, "@importer")().new({
+local Importer = loadstring(src, '@importer')().new({
 	user = gitUser,
 	repo = gitRepo,
 	branch = gitBranch,
