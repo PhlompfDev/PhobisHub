@@ -2,6 +2,8 @@ local menulib = import("ui/prioritymenu/libs/prioritymenulibrary")
 
 local HubLibrary = {}
 
-print(menulib.coolfunction(1))
+function HubLibrary.supercoolfunction()
+    print(menulib.coolfunction(1))
+end
 
 return HubLibrary
