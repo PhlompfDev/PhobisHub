@@ -2,11 +2,16 @@ if not game:IsLoaded() then
 	game.Loaded:Wait()
 end
 
-print('[Auto Execute] ✅ Game fully loaded! Running Phobis Hub Bootstrapper')
+print('[Auto Execute] ✅ Game fully loaded! Running Developer Bootstrapper')
 
--->> 🧠 PhobisHub Bootstrapper
+-->> 🧠 PhobisHub Dev Bootstrapper
 
+local gitUser = 'PhlompfDev'
+local gitRepo = 'PhobisHub'
+local gitBranch = 'dev'
+local gitRoot = ''
 local cacheDir = 'phobishub_cache'
+
 local importerPath = cacheDir .. '/importer.lua'
 local importerURL = 'https://raw.githubusercontent.com/PhlompfDev/PhobisHub/main/utils/importer.lua'
 
@@ -32,11 +37,11 @@ if not src then
 end
 
 local Importer = loadstring(src, "@importer")().new({
-	user = 'PhlompfDev',
-	repo = 'PhobisHub',
-	branch = 'dev',
-	root = '',
-	cache_dir = 'phobishub_cache',
+	user = gitUser,
+	repo = gitRepo,
+	branch = gitBranch,
+	root = gitRoot,
+	cache_dir = cacheDir,
 })
 
 -->> Expose import globally
