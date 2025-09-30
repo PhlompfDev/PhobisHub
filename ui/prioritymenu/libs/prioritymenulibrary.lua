@@ -1,7 +1,7 @@
-local priorityLibrary = {}
+local PriorityLibrary = {}
 
 function priorityLibrary.coolfunction(arg)
     return arg + 1
 end
 
-return priorityLibrary
+return PriorityLibrary
