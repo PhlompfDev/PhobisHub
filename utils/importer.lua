@@ -2,6 +2,8 @@
 -->> 🧠 PhobisHub Importer
 -->> Handles GitHub fetching, caching, and import execution
 
+local DEV_MODE = true -->> true = prefer local files, false = use GitHub only
+
 local function has(fn)
 	return type(fn) == "function"
 end
@@ -84,11 +86,20 @@ function Importer.new(opts)
 		return self:_import(modulePath, forceRefresh)
 	end
 
-	-->> Provide a cache clear helper
-	function self.clearCache()
-		print("[Importer] 🧹 Clearing cache folder:", self.cacheDir)
-		deleteFolder(self.cacheDir)
-		ensureFolderExists(path_join(self.cacheDir, self.user, self.repo, self.branch))
+	-->> Clears memory cache
+	function self.clear()
+		for k in pairs(self.cache) do
+			self.cache[k] = nil
+		end
+		print("[Importer] 🧠 Memory cache cleared.")
+	end
+
+	function self.invalidate(modulePath, deleteDisk)
+		self.cache[modulePath] = nil
+		if deleteDisk then
+			local f = self:_disk_path(modulePath)
+			if FS.exists and FS.exists(f) and FS.delfile then pcall(FS.delfile, f) end
+		end
 	end
 
 	return self
@@ -133,15 +144,24 @@ function Importer:_import(modulePath, forceRefresh)
     end
 
 	-->> 1️⃣ Memory cache
-	if self.cache[modulePath] then
+	if not forceRefresh and self.cache[modulePath] then
 		print(("[Importer] ⚡ %s (memory cache)"):format(modulePath))
 		return self.cache[modulePath]
 	end
 
 	local source, sourceType = nil, "web"
 
+	if DEV_MODE and FS.read and FS.exists and FS.exists(diskFile) then
+		local ok, content = pcall(FS.read, diskFile)
+		if ok and content and #content > 0 then
+			source = content
+			sourceType = "dev-cache"
+			print(("[DEV] ⚡ Using cached file for %s"):format(modulePath))
+		end
+	end
+
 	-->> 2️⃣ Disk cache
-	if FS.read and FS.exists and FS.exists(diskFile) then
+	if not source and FS.read and FS.exists and FS.exists(diskFile) then
 		local ok, content = pcall(FS.read, diskFile)
 		if ok and content and #content > 0 then
 			source = content
@@ -180,22 +200,6 @@ end
     import("modules/player/get_skips", true)
 
 --]]
-
-function Importer:invalidate(modulePath, deleteDisk)
-    self.cache[modulePath] = nil
-    if deleteDisk then
-        local f = self:_disk_path(modulePath)
-        if FS.exists and FS.exists(f) and FS.delfile then pcall(FS.delfile, f) end
-    end
-end
-
--->> Clears memory cache
-function Importer:clear()
-	for k in pairs(self.cache) do
-		self.cache[k] = nil
-	end
-	print("[Importer] 🧠 Memory cache cleared.")
-end
 
 return {
 	new = Importer.new
