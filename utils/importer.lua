@@ -2,6 +2,8 @@
 -->> 🧠 PhobisHub Importer
 -->> Handles GitHub fetching, caching, and import execution
 
+local DEV_MODE = true -->> true = prefer local files, false = use GitHub only
+
 local function has(fn)
 	return type(fn) == "function"
 end
@@ -139,6 +141,18 @@ function Importer:_import(modulePath, forceRefresh)
 	end
 
 	local source, sourceType = nil, "web"
+
+	if DEV_MODE then
+		local localPath = modulePath .. ".lua"
+		if FS.exists and FS.exists(localPath) then
+			print(("[DEV] ⚡ Using local file: %s"):format(localPath))
+			local ok, content = pcall(FS.read, localPath)
+			if ok and content and #content > 0 then
+				source = content
+				sourceType = "local"
+			end
+		end
+	end
 
 	-->> 2️⃣ Disk cache
 	if FS.read and FS.exists and FS.exists(diskFile) then

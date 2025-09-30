@@ -1,6 +1,6 @@
 local PriorityLibrary = {}
 
-function priorityLibrary.coolfunction(arg)
+function PriorityLibrary.coolfunction(arg)
     return arg + 1
 end
 
