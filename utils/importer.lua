@@ -144,6 +144,8 @@ function Importer:_import(modulePath, forceRefresh)
 
 	if DEV_MODE then
 		local localPath = modulePath .. ".lua"
+		print("localPath " .. modulePath)
+		print("disk path " .. _disk_path(modulePath .. ".lua"))
 		if FS.exists and FS.exists(localPath) then
 			print(("[DEV] ⚡ Using local file: %s"):format(localPath))
 			local ok, content = pcall(FS.read, localPath)
