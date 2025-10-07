@@ -11,9 +11,7 @@ local Importer = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com
 	cache_dir = "phobishub_cache"
 }
 
--->> Expose import globally
 getgenv().import = Importer.import
--->> give init a handle
 getgenv().__Importer = Importer
 
 -->> version check + rebuild
