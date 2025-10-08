@@ -1,3 +1,10 @@
+# Phlompfporter
+![GitHub Release](https://img.shields.io/github/v/release/PhlompfDev/PhobisHub)
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/PhlompfDev/PhobisHub/total)
+
+| ![Real Footage Of Me Making This Repository](https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNXpsOWQwdTl1bGZpemk2M2RwNjBwOHdobjFnMHAyMWY0cmJqbDQ1MCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/12W5Sg2koWYnwA/giphy.gif)	| 
+|:--:												| 
+
 # PhobisHub
 
 ```lua
