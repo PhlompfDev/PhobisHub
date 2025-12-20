@@ -1,4 +1,4 @@
-local helper = import("games/minershaven/modules/gifts/present_helper")
+local helper = import("games/minershaven/modules/gifts/present_helper", 1)
 
 local chr = game.Players.LocalPlayer.Character
 local hrp = chr.HumanoidRootPart
