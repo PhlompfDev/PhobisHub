@@ -2,7 +2,7 @@
 -->> 🧠 PhobisHub Importer
 -->> Handles GitHub fetching, caching, and import execution
 
-local DEV_MODE = true -->> true = prefer local files, false = use GitHub only
+local DEV_MODE = false -->> true = prefer local files, false = use GitHub only
 
 local function has(fn)
 	return type(fn) == "function"
@@ -136,11 +136,7 @@ function Importer:_import(modulePath, forceRefresh)
 
     if forceRefresh then
         -->> drop memory
-        self.cache[modulePath] = nil
-        -->> drop disk
-        if FS.exists and FS.exists(diskFile) and FS.delfile then
-            pcall(FS.delfile, diskFile)
-        end
+        self.invalidate(modulePath, true)
     end
 
 	-->> 1️⃣ Memory cache

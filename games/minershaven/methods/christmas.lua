@@ -1,4 +1,5 @@
-local helper = import("games/minershaven/modules/gifts/present_helper")
+-- getgenv().__Importer:invalidate("games/minershaven/modules/gifts/present_helper", true)
+local helper = import("games/minershaven/modules/gifts/present_helper", 1)
 
 local plr = game.Players.LocalPlayer
 local chr = plr.Character
