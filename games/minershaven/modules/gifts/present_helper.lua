@@ -1,6 +1,6 @@
 local presentHelper = {}
 
-local hrp = 1 or game.Players.LocalPlayer.Character.HumanoidRootPart
+local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
 
 -- Returns true if worldPoint lies inside the rotated box (zonePart)
 function presentHelper:pointInOBB(zonePart: BasePart, worldPoint: Vector3, padding: number?)
