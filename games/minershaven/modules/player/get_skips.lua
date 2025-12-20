@@ -17,19 +17,6 @@ local function getMoneyValue(plr)
     return nil
 end
 
---[[
-
-Notes:
-
-    - pcall(require, lib): prevents a thrown error in require() from crashing
-        the script. The boolean "ok" indicates success and the second return
-        value is either the module or an error message.
-    - Type checks (is table, has LifeSkips function): modules can return
-        arbitrary values. Checking the shape prevents runtime indexing/call errors
-        if the game updates or the module changes.
-
-]]
-
 local function getAvailableSkips(plr)
     if not plr then return nil end
     local money = getMoneyValue(plr) or 0
