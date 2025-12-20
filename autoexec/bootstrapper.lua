@@ -2,9 +2,11 @@ if not game:IsLoaded() then
 	game.Loaded:Wait()
 end
 
-print('[Auto Execute] ✅ Game fully loaded! Running Developer Bootstrapper')
+print('✅ [Auto Execute] Game fully loaded! Running Developer Bootstrapper')
 
 -->> 🧠 PhobisHub Dev Bootstrapper
+
+_G.DEV_MODE = true
 
 local gitUser = 'PhlompfDev'
 local gitRepo = 'PhobisHub'
@@ -13,8 +15,7 @@ local gitRoot = ''
 local cacheDir = 'phobishub_cache'
 
 local importerPath = cacheDir .. '/importer.lua'
-local importerURL =
-	'https://raw.githubusercontent.com/PhlompfDev/PhobisHub/main/utils/importer.lua'
+local importerURL = 'https://raw.githubusercontent.com/PhlompfDev/PhobisHub/main/utils/importer.lua'
 
 if makefolder and not isfolder(cacheDir) then
 	makefolder(cacheDir)
@@ -23,14 +24,14 @@ end
 local src
 if isfile and isfile(importerPath) then
 	local ok, content = pcall(readfile, importerPath)
-	if ok and content and #content > 0 then
-		print('[Bootstrapper] ⚡ Using cached importer')
+	if ok and content and #content > 0 and _G.DEV_MODE then
+		print('⚡ [Bootstrapper] Using cached importer')
 		src = content
 	end
 end
 
-if not src then
-	print('[Bootstrapper] 🌐 Downloading importer')
+if not src or not _G.DEV_MODE then
+	print('🌐 [Bootstrapper] Downloading importer')
 	src = game:HttpGetAsync(importerURL .. '?t=' .. os.time())
 	if writefile then
 		pcall(writefile, importerPath, src)
