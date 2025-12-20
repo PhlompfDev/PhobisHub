@@ -33,7 +33,7 @@ local function deleteTree(path)
 end
 
 local function clearCache()
-    print("[Init] 🧹 Clearing cache at:", rootToWipe)
+    print("🧹 [Init] Clearing cache at:", rootToWipe)
     deleteTree(rootToWipe)
     -->> also clear in-memory modules currently held by the importer
     if getgenv and getgenv().__Importer then
@@ -52,14 +52,14 @@ if FS.read and FS.write and releaseInfo then
 	local latest = releaseInfo.tag_name
 
 	if not ran or localVersion ~= latest then
-		print(("[Init] 🔄 Version mismatch (%s → %s), rebuilding cache..."):format(tostring(localVersion), latest))
+		print(("🔄 [Init] Version mismatch (%s → %s), rebuilding cache..."):format(tostring(localVersion), latest))
 		clearCache()
 		FS.write(versionFile, latest)
 	else
-		print("[Init] ✅ Version up-to-date:", latest)
+		print("✅ [Init] Version up-to-date:", latest)
 	end
 else
-	warn("[Init] ⚠️ Could not retrieve release info from GitHub")
+	warn("⚠️ [Init]Could not retrieve release info from GitHub")
 end
 
 return true

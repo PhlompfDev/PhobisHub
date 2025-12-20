@@ -2,14 +2,12 @@ local presentHelper = {}
 
 local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
 
--- Returns true if worldPoint lies inside the rotated box (zonePart)
 function presentHelper:pointInOBB(zonePart: BasePart, worldPoint: Vector3, padding: number?)
 	padding = padding or 0
 
-	-- Convert point into the zone's local coordinate space
+	-->> Convert point into the zone's local coordinate space
 	local localPos = zonePart.CFrame:PointToObjectSpace(worldPoint)
 
-	-- Half extents in local axes
 	local half = (zonePart.Size * 0.5) + Vector3.new(padding, padding, padding)
 
 	return math.abs(localPos.X) <= half.X
@@ -17,7 +15,7 @@ function presentHelper:pointInOBB(zonePart: BasePart, worldPoint: Vector3, paddi
 		and math.abs(localPos.Z) <= half.Z
 end
 
--- Finds the factory whose Zone contains the present position
+-->> Finds the factory whose Zone contains the present position
 function presentHelper:getFactoryFromPresentCFrame(factoriesFolder: Instance, presentCFrame: CFrame)
 	local p = presentCFrame.Position
 
@@ -33,7 +31,6 @@ function presentHelper:getFactoryFromPresentCFrame(factoriesFolder: Instance, pr
 	return nil
 end
 
--- Example "matches my factory" check
 function presentHelper:presentIsMine(factoriesFolder: Instance, presentCFrame: CFrame, myFactoryName: string)
 	local factory = self:getFactoryFromPresentCFrame(factoriesFolder, presentCFrame)
 	return factory ~= nil and factory.Name == myFactoryName

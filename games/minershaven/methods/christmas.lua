@@ -1,5 +1,4 @@
--- getgenv().__Importer:invalidate("games/minershaven/modules/gifts/present_helper", true)
-local helper = import("games/minershaven/modules/gifts/present_helper", 1)
+local helper = import("games/minershaven/modules/gifts/present_helper")
 
 local plr = game.Players.LocalPlayer
 local chr = plr.Character
@@ -51,17 +50,15 @@ end
 
 _G.Swag = true
 
+helper:dropOre(myFactory)
+task.wait(10)
 while _G.Swag == true do
-	helper:dropOre(myFactory)
-
-	task.wait(3)
-
 	for i, v in pairs(workspace:GetChildren()) do
 		if v.Name == "CreatedPresent" then
 			local present = v
 			if helper:presentIsMine(Tycoons, present.CFrame, tostring(myFactory)) then
 				helper:tp(present)
-				task.wait(0.1)
+				task.wait(0.5)
 
 				fireproximityprompt(present.ProximityPrompt, 1, true)
 
@@ -74,4 +71,5 @@ while _G.Swag == true do
 			end
 		end
 	end
+	task.wait(0.1)
 end

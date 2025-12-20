@@ -91,7 +91,7 @@ function Importer.new(opts)
 		for k in pairs(self.cache) do
 			self.cache[k] = nil
 		end
-		print("[Importer] 🧠 Memory cache cleared.")
+		print("🧠 [Importer] Memory cache cleared.")
 	end
 
 	function self.invalidate(modulePath, deleteDisk)
@@ -141,7 +141,7 @@ function Importer:_import(modulePath, forceRefresh)
 
 	-->> 1️⃣ Memory cache
 	if not forceRefresh and self.cache[modulePath] then
-		print(("[Importer] ⚡ %s (memory cache)"):format(modulePath))
+		print(("⚡ [Importer] %s (memory cache)"):format(modulePath))
 		return self.cache[modulePath]
 	end
 
@@ -152,7 +152,7 @@ function Importer:_import(modulePath, forceRefresh)
 		if ok and content and #content > 0 then
 			source = content
 			sourceType = "dev-cache"
-			print(("[DEV] ⚡ Using cached file for %s"):format(modulePath))
+			print(("⚡ [DEV] Using cached file for %s"):format(modulePath))
 		end
 	end
 
@@ -168,7 +168,7 @@ function Importer:_import(modulePath, forceRefresh)
 	-->> 3️⃣ Network fetch
 	if not source then
 		local url = self:_raw_url(modulePath)
-		print("[Importer] 🌐 Fetching:", url)
+		print("🌐 [Importer] Fetching:", url)
 		source = game:HttpGetAsync(url .. "?t=" .. os.time())
 		if FS.write then
 			ensureFolderExists(diskFile)
@@ -180,7 +180,7 @@ function Importer:_import(modulePath, forceRefresh)
 	local result = self:_load_module(source, ("@" .. modulePath))
 	self.cache[modulePath] = result
 
-	print(("[Importer] ✅ %s loaded (%s)"):format(modulePath, sourceType))
+	print(("✅ [Importer] %s loaded (%s)"):format(modulePath, sourceType))
 	return result
 end
 

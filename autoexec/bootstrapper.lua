@@ -6,7 +6,7 @@ print('✅ [Auto Execute] Game fully loaded! Running Developer Bootstrapper')
 
 -->> 🧠 PhobisHub Dev Bootstrapper
 
-_G.DEV_MODE = true
+_G.DEV_MODE = false
 
 local gitUser = 'PhlompfDev'
 local gitRepo = 'PhobisHub'
@@ -15,7 +15,7 @@ local gitRoot = ''
 local cacheDir = 'phobishub_cache'
 
 local importerPath = cacheDir .. '/importer.lua'
-local importerURL = 'https://raw.githubusercontent.com/PhlompfDev/PhobisHub/main/utils/importer.lua'
+local importerURL = 'https://raw.githubusercontent.com/PhlompfDev/PhobisHub/'..gitBranch..'/utils/importer.lua'
 
 if makefolder and not isfolder(cacheDir) then
 	makefolder(cacheDir)

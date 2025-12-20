@@ -265,6 +265,7 @@ end
 local activeLoops = {}
 
 local function startLoop(key, fn, delay)
+    delay = delay or 0.1
     if activeLoops[key] then return end
     activeLoops[key] = true
     task.spawn(function()
@@ -289,7 +290,7 @@ end
 
 
 -- //=====================[ Ore Booster ]=====================//
-local getAvailableSkips = import("modules/player/get_skips")
+local getAvailableSkips = import("games/minershaven/modules/player/get_skips")
 
 local allowedSkips = nil
 local skipToggleValue = nil
@@ -434,8 +435,6 @@ function rescanAndSortUpgraders()
                 debugTotal = debugTotal + 1
                 if isLoop then debugLoops = debugLoops + 1 end
                 if isResetter then debugResets = debugResets + 1 end
-                -- -- print(debugResets)
-                -- print(string.format("[Rescan] Found upgrader: %s | Loop=%s | Resetter=%s | Order=%d", name, tostring(isLoop), tostring(isResetter), order))
             end
         end
     end
@@ -511,10 +510,8 @@ function rescanAndSortUpgraders()
     CACHED_LIMIT_BEAM = newLimitBeam
 
     if newTargetValue ~= nil then
-        -- print(ACTIVE_LOOP_TARGET_VALUE)
         ACTIVE_LOOP_TARGET_VALUE = newTargetValue
     else
-        -- print("newTargetValue is nil" .. ACTIVE_LOOP_TARGET_VALUE)
         ACTIVE_LOOP_TARGET_VALUE = DEFAULT_LOOP_TARGET_VALUE -- may be nil
     end
 
@@ -531,22 +528,6 @@ function rescanAndSortUpgraders()
                     ore.CFrame = CACHED_LIMIT_BEAM.CFrame
                 end
             end
-        end
-    end
-
-    -->> Debug summary of the rescan
-    -- print(string.format("[Rescan] Total upgraders: %d | Loops: %d | Resetters: %d", #beamsData, #loopsList, #CACHED_RESETTERS))
-
-    if CACHED_LIMIT_BEAM then
-        -- print("[Rescan] Active loop upgrader:", CACHED_LIMIT_BEAM:GetFullName())
-    else
-        -- print("[Rescan] No loop upgrader selected.")
-    end
-    if #CACHED_RESETTERS == 0 then
-        -- print("[Rescan] No resetters detected.")
-    else
-        for idx, rb in ipairs(CACHED_RESETTERS) do
-            -- print(string.format("[Rescan] Resetter %d: %s", idx, rb:GetFullName()))
         end
     end
 end
