@@ -1,21 +1,20 @@
-local helper = import("games/minershaven/modules/gifts/present_helper", 1)
+local helper = import("games/minershaven/modules/gifts/present_helper")
 
-local chr = game.Players.LocalPlayer.Character
+local plr = game.Players.LocalPlayer
+local chr = plr.Character
 local hrp = chr.HumanoidRootPart
 
 local santerclaws = workspace.Map:FindFirstChild("SantaModel").Santa
 
-local myFactoryName = tostring(game.Players.LocalPlayer:WaitForChild("PlayerTycoon").Value)
+local myFactory = plr:WaitForChild("PlayerTycoon").Value
 local Tycoons = workspace:WaitForChild("Tycoons")
 
 local Event = game:GetService("ReplicatedStorage").EventControllers.Christmas.CashInGift
 
-
-local PAD_XZ = 6
-local FIXED_Y = 60
-
 local function ensureZone(factoryModel: Model)
 	local bboxCFrame, bboxSize = factoryModel:GetBoundingBox()
+	local PAD_XZ = 6
+	local FIXED_Y = 60
 
 	local zone = factoryModel:FindFirstChild("Zone")
 	if not zone then
@@ -37,17 +36,9 @@ local function ensureZone(factoryModel: Model)
 		bboxSize.Z + PAD_XZ
 	)
 
-	-- Keep it centered on the factory’s bbox.
-	-- If using FIXED_Y, keep the center the same (simple + works fine for most tycoons).
 	zone.CFrame = bboxCFrame
-
-	-- Optional: if you want the zone to sit on the ground and extend upward:
-	-- zone.CFrame = bboxCFrame * CFrame.new(0, (ySize - bboxSize.Y) * 0.5, 0)
 end
 
-local function tp(destination)
-    hrp.CFrame = destination.CFrame
-end
 
 print("-------------")
 
@@ -57,21 +48,29 @@ for _, factory in ipairs(Tycoons:GetChildren()) do
 	end
 end
 
-for i, v in pairs(workspace:GetChildren()) do
-	if v.Name == "CreatedPresent" then
-		local present = v
-		if helper:presentIsMine(Tycoons, present.CFrame, myFactoryName) then
-			print("This present is mine.")
+_G.Swag = true
 
-			tp(present)
-			task.wait(0.1)
+while _G.Swag == true do
+	helper:dropOre(myFactory)
 
-			fireproximityprompt(present.ProximityPrompt, 1, true)
+	task.wait(3)
 
-			tp(santerclaws.Internal)
-			task.wait(0.5)
+	for i, v in pairs(workspace:GetChildren()) do
+		if v.Name == "CreatedPresent" then
+			local present = v
+			if helper:presentIsMine(Tycoons, present.CFrame, tostring(myFactory)) then
+				helper:tp(present)
+				task.wait(0.1)
 
-			Event:InvokeServer()
+				fireproximityprompt(present.ProximityPrompt, 1, true)
+
+				helper:tp(santerclaws.Internal)
+				task.wait(0.5)
+
+				Event:InvokeServer()
+				helper:dropOre(myFactory)
+				task.wait(15)
+			end
 		end
 	end
 end

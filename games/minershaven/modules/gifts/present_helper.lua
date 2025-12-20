@@ -22,8 +22,7 @@ function presentHelper:getFactoryFromPresentCFrame(factoriesFolder: Instance, pr
 	for _, factory in ipairs(factoriesFolder:GetChildren()) do
 		local zone = factory:FindFirstChild("Zone")
 		if zone and zone:IsA("BasePart") then
-			if self:pointInOBB(zone, p, 2) then -- padding helps with edge spawns
-				print("Present factory:", factory.Name, "My factory:", myFactoryName)
+			if self:pointInOBB(zone, p, 2) then
 				return factory
 			end
 		end
@@ -36,6 +35,19 @@ end
 function presentHelper:presentIsMine(factoriesFolder: Instance, presentCFrame: CFrame, myFactoryName: string)
 	local factory = self:getFactoryFromPresentCFrame(factoriesFolder, presentCFrame)
 	return factory ~= nil and factory.Name == myFactoryName
+end
+
+function presentHelper:tp(destination)
+    hrp.CFrame = destination.CFrame
+end
+
+function presentHelper:dropOre(myFactory)
+	local dropper = myFactory:FindFirstChild("Silicon Excavator")
+	if dropper and dropper.Model.Internal:FindFirstChild("ProximityPrompt") then
+		self:tp(dropper.Hitbox)
+		task.wait(0.5)
+		fireproximityprompt(dropper.Model.Internal.ProximityPrompt, 1, true)
+	end
 end
 
 return presentHelper
