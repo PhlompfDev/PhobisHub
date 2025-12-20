@@ -22,7 +22,7 @@ function presentHelper:getFactoryFromPresentCFrame(factoriesFolder: Instance, pr
 	for _, factory in ipairs(factoriesFolder:GetChildren()) do
 		local zone = factory:FindFirstChild("Zone")
 		if zone and zone:IsA("BasePart") then
-			if pointInOBB(zone, p, 2) then -- padding helps with edge spawns
+			if self.pointInOBB(zone, p, 2) then -- padding helps with edge spawns
 				print("Present factory:", factory.Name, "My factory:", myFactoryName)
 				return factory
 			end
@@ -34,7 +34,7 @@ end
 
 -- Example "matches my factory" check
 function presentHelper:presentIsMine(factoriesFolder: Instance, presentCFrame: CFrame, myFactoryName: string)
-	local factory = getFactoryFromPresentCFrame(factoriesFolder, presentCFrame)
+	local factory = self.getFactoryFromPresentCFrame(factoriesFolder, presentCFrame)
 	return factory ~= nil and factory.Name == myFactoryName
 end
 
